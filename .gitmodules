@@ -1,0 +1,6 @@
+[submodule "onenine"]
+	path = onenine
+	url = git://git.moodle.org/moodle.git
+[submodule "two"]
+	path = two
+	url = git://git.moodle.org/moodle.git
