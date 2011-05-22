@@ -1,0 +1,41 @@
+#!/bin/bash
+echo $BACKUPID;
+echo $BACKUPFILE;
+
+if [ -z $BACKUPID ]
+    then
+        echo "No backup ID specified";
+        exit;
+fi
+
+if [ -z $BACKUPDEST ]
+    then
+        echo "No backup destination specified";
+        exit;
+fi
+
+
+
+DATADIR="/home/mattc/oneninetotwo/backup-$BACKUPID"
+DATABASE="oneninetotwo_19-$BACKUPID";
+
+echo "Create DB: $DATABASE"
+createdb $DATABASE -T oneninetotwo_19-base -Omoodle
+
+echo "Create Data Dir: $DATADIR"
+mkdir $DATADIR;
+
+echo "Restore backup"
+php restore19course.php
+
+echo "Moodle 2.0 upgrade"
+php ../two/admin/cli/upgrade.php --non-interactive
+
+echo "Create Backup"
+php backup20course.php
+
+echo "Drop DB"
+dropdb $DATABASE;
+
+echo "Remove Data dir"
+rm -rf $DATADIR;
