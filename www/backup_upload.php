@@ -1,7 +1,6 @@
 <?php
 require('config.php');
 
-var_dump($_FILES);
 if (empty($_POST['email']) || empty($_FILES['backupfile'])) {
     header('Location: /');
     exit;

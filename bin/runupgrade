@@ -1,4 +1,6 @@
 #!/bin/bash
+source config.sh
+
 echo $BACKUPID;
 echo $BACKUPFILE;
 
@@ -16,11 +18,11 @@ fi
 
 
 
-DATADIR="/home/mattc/oneninetotwo/backup-$BACKUPID"
-DATABASE="oneninetotwo_19-$BACKUPID";
+DATADIR="$DATADIR/backup-$BACKUPID"
+DATABASE="oneninetotwo_$BACKUPID";
 
 echo "Create DB: $DATABASE"
-createdb $DATABASE -T oneninetotwo_19-base -Omoodle
+createdb $DATABASE -T oneninetotwo_base -Eutf8 -O $DBUSER -U $DBUSER -h $DBHOST -p $DBPORT
 
 echo "Create Data Dir: $DATADIR"
 mkdir $DATADIR;
@@ -35,7 +37,8 @@ echo "Create Backup"
 php backup20course.php
 
 echo "Drop DB"
-dropdb $DATABASE;
+dropdb $DATABASE -U $DBUSER -h $DBHOST -p $DBPORT
+
 
 echo "Remove Data dir"
 rm -rf $DATADIR;

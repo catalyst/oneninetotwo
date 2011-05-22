@@ -1,0 +1,33 @@
+diff --git a/backup/restorelib.php b/backup/restorelib.php
+index 84f5f2a..b8529b3 100644
+--- a/backup/restorelib.php
++++ b/backup/restorelib.php
+@@ -952,7 +952,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+         // Calculate if we have perms to create users, by checking:
+         // to 'moodle/restore:createuser' and 'moodle/restore:userinfo'
+         // and also observe $CFG->disableusercreationonrestore
+-        $cancreateuser = false;
++        $cancreateuser = true;
+         if (has_capability('moodle/restore:createuser', $context) and
+             has_capability('moodle/restore:userinfo', $context) and
+             empty($CFG->disableusercreationonrestore)) { // Can create users
+diff --git a/tag/lib.php b/tag/lib.php
+index 8b7e2fb..51c4d3e 100644
+--- a/tag/lib.php
++++ b/tag/lib.php
+@@ -620,7 +620,6 @@ function tag_find_records($tag, $type, $limitfrom='', $limitnum='') {
+ function tag_add($tags, $type="default") {
+     global $USER;
+ 
+-    require_capability('moodle/tag:create', get_context_instance(CONTEXT_SYSTEM));
+ 
+     if (!is_array($tags)) {
+         $tags = array($tags);
+@@ -664,7 +663,6 @@ function tag_add($tags, $type="default") {
+  */
+ function tag_assign($record_type, $record_id, $tagid, $ordering) {
+ 
+-    require_capability('moodle/tag:create', get_context_instance(CONTEXT_SYSTEM));
+ 
+     if ( $tag_instance_object = get_record('tag_instance', 'tagid', $tagid, 'itemtype', $record_type, 'itemid', $record_id, 'id') ) {
+         $tag_instance_object->ordering = $ordering;

@@ -2,9 +2,9 @@
 
 require(dirname(__FILE__).'/../www/config.php');
 
-$sql = "SELECT * 
-        FROM queue 
-        WHERE timestarted IS NULL 
+$sql = "SELECT *
+        FROM queue
+        WHERE timestarted IS NULL
         ORDER BY id";
 
 $sth = $db->prepare($sql);
@@ -33,7 +33,7 @@ while($task = $sth->fetch(PDO::FETCH_OBJ)) {
 
     if (is_file($dest)) {
         $link    = DOWNLOADLINK.'?id='.$task->id."&hash=".sha1_file($dest);
-        $headers = 'From: <Moodle 2 Converter> '.ADMINEMAIL."\r\n".
+        $headers = 'From: '.ADMINEMAIL."\r\n".
                    'Reply-To: '.ADMINEMAIL."\r\n".
                    'X-Mailer: PHP/' . phpversion();
         $subject = '[Moodle 2 Converter] '.$task->filename.' ready for download';
