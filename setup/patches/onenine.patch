@@ -1,3 +1,26 @@
+diff --git a/admin/settings/courses.php b/admin/settings/courses.php
+index 6a6c8a5..a82f062 100644
+--- a/admin/settings/courses.php
++++ b/admin/settings/courses.php
+@@ -65,15 +65,15 @@ if ($hassiteconfig
+     // "backups" settingpage
+     if (!empty($CFG->backup_version)) {
+         $bi = array();
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_modules', get_string('includemodules'), get_string('backupincludemoduleshelp'), 0);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_modules', get_string('includemodules'), get_string('backupincludemoduleshelp'), 1);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_withuserdata', get_string('includemoduleuserdata'), get_string('backupincludemoduleuserdatahelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_metacourse', get_string('metacourse'), get_string('backupmetacoursehelp'), 0);
+         $bi[] = new admin_setting_configselect('backup_sche_users', get_string('users'), get_string('backupusershelp'),
+                                                0, array(0 => get_string('all'), 1 => get_string('course')));
+         $bi[] = new admin_setting_configcheckbox('backup_sche_logs', get_string('logs'), get_string('backuplogshelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_userfiles', get_string('userfiles'), get_string('backupuserfileshelp'), 0);
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_coursefiles', get_string('coursefiles'), get_string('backupcoursefileshelp'), 0);
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_sitefiles', get_string('sitefiles'), get_string('backupsitefileshelp'), 0);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_coursefiles', get_string('coursefiles'), get_string('backupcoursefileshelp'), 1);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_sitefiles', get_string('sitefiles'), get_string('backupsitefileshelp'), 1);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_gradebook_history', get_string('gradebookhistories', 'grades'), get_string('backupgradebookhistoryhelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_messages', get_string('messages', 'message'), get_string('backupmessageshelp','message'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_blogs', get_string('blogs', 'blog'), get_string('backupblogshelp','blog'), 0);
 diff --git a/backup/restorelib.php b/backup/restorelib.php
 index 6cf48e1..04a4f83 100644
 --- a/backup/restorelib.php
