@@ -1,6 +1,6 @@
 diff --git a/admin/cliupgrade.php b/admin/cliupgrade.php
 new file mode 100644
-index 0000000..509edb7
+index 0000000..6b5afdf
 --- /dev/null
 +++ b/admin/cliupgrade.php
 @@ -0,0 +1,1354 @@
@@ -1458,7 +1458,7 @@ index 9298747..ecc38f4 100644
                      error("Upgrade of backup system failed! (Could not update version in config table)");
                  }
 diff --git a/lang/en_utf8/install.php b/lang/en_utf8/install.php
-index e924426..93cc78c 100644
+index a2338bb..6774506 100644
 --- a/lang/en_utf8/install.php
 +++ b/lang/en_utf8/install.php
 @@ -1,7 +1,8 @@
@@ -1613,7 +1613,7 @@ index e924426..93cc78c 100644
 +$string['releasenoteslink'] = 'For information about this version of Moodle, please see Release Notes at $a';
  $string['postgresqlwarning'] = '<strong>Note:</strong> If you experience some connection problems, you can try to set Host Server field as
   host=\'postgresql_host\' port=\'5432\' dbname=\'postgresql_database_name\' user=\'postgresql_user\' password=\'postgresql_user_password\'
- and to leave empty the Database, User and Password fields. More information on <a href=\"http://docs.moodle.org/en/Installing_Postgres_for_PHP\">Moodle Docs</a>';
+ and to leave empty the Database, User and Password fields. More information on <a href=\"http://docs.moodle.org/19/en/Installing_Postgres_for_PHP\">Moodle Docs</a>';
 @@ -268,12 +317,64 @@ $string['safemodehelp'] = '<p>Moodle may have a variety of problems with safe mo
     to just find a new web hosting company for your Moodle site.</p>
     
@@ -1691,7 +1691,7 @@ index e924426..93cc78c 100644
  
  ?>
 diff --git a/lib/accesslib.php b/lib/accesslib.php
-index 7d00069..3d028ce 100755
+index 0ab769e..864b7fa 100755
 --- a/lib/accesslib.php
 +++ b/lib/accesslib.php
 @@ -2248,12 +2248,17 @@ function get_system_context($cache=true) {
@@ -1716,7 +1716,7 @@ index 7d00069..3d028ce 100755
          }
      }
 diff --git a/lib/adminlib.php b/lib/adminlib.php
-index 2efe8a8..40b11d4 100644
+index 3edd526..1277475 100644
 --- a/lib/adminlib.php
 +++ b/lib/adminlib.php
 @@ -4,7 +4,7 @@
@@ -2223,7 +2223,7 @@ index 8cd5a12..2c0c88d 100644
  }
  
 diff --git a/lib/dmllib.php b/lib/dmllib.php
-index b477635..db20276 100644
+index 555841d..c89d27b 100644
 --- a/lib/dmllib.php
 +++ b/lib/dmllib.php
 @@ -1,4 +1,4 @@
@@ -2894,7 +2894,7 @@ index 0000000..d14cf11
 +}
 +?>
 diff --git a/lib/locallib.php b/lib/locallib.php
-index b4ae638..42bca5a 100644
+index c2f84a0..d41571c 100644
 --- a/lib/locallib.php
 +++ b/lib/locallib.php
 @@ -151,26 +151,43 @@ function upgrade_local_db($continueto) {
@@ -2995,7 +2995,7 @@ index 32f9a70..4cbf124 100644
  
  /// Define dbfamily
 diff --git a/lib/weblib.php b/lib/weblib.php
-index 0563089..8b0db0c 100644
+index 36271fc..7a18438 100644
 --- a/lib/weblib.php
 +++ b/lib/weblib.php
 @@ -1,4 +1,4 @@
@@ -3064,8 +3064,8 @@ index 0563089..8b0db0c 100644
      }
  }
  
-@@ -5849,6 +5874,11 @@ function print_error($errorcode, $module='error', $link='', $a=NULL, $extralocat
-         $errordocroot = 'http://docs.moodle.org';
+@@ -5857,6 +5882,11 @@ function print_error($errorcode, $module='error', $link='', $a=NULL, $extralocat
+         }
      }
  
 +    if (defined('CLI_UPGRADE') && CLI_UPGRADE) {
@@ -3076,7 +3076,7 @@ index 0563089..8b0db0c 100644
      if (defined('FULLME') && FULLME == 'cron') {
          // Errors in cron should be mtrace'd.
          mtrace($message);
-@@ -6296,13 +6326,20 @@ function redirect($url, $message='', $delay=-1) {
+@@ -6306,13 +6336,20 @@ function redirect($url, $message='', $delay=-1) {
   * @param bool $return whether to return an output string or echo now
   */
  function notify($message, $style='notifyproblem', $align='center', $return=false) {
