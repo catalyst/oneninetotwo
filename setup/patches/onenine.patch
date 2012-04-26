@@ -22,7 +22,7 @@ index 6a6c8a5..a82f062 100644
          $bi[] = new admin_setting_configcheckbox('backup_sche_messages', get_string('messages', 'message'), get_string('backupmessageshelp','message'), 0);
          $bi[] = new admin_setting_configcheckbox('backup_sche_blogs', get_string('blogs', 'blog'), get_string('backupblogshelp','blog'), 0);
 diff --git a/backup/restorelib.php b/backup/restorelib.php
-index 6cf48e1..04a4f83 100644
+index 6cf48e1..e8278ef 100644
 --- a/backup/restorelib.php
 +++ b/backup/restorelib.php
 @@ -971,7 +971,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
@@ -34,7 +34,15 @@ index 6cf48e1..04a4f83 100644
          if (has_capability('moodle/restore:createuser', $context) and
              has_capability('moodle/restore:userinfo', $context) and
              empty($CFG->disableusercreationonrestore)) { // Can create users
-@@ -1213,6 +1213,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+@@ -1129,7 +1129,6 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+             $course->fullname = addslashes($course_header->course_fullname);
+             $course->shortname = addslashes($course_header->course_shortname);
+             $course->idnumber = addslashes($course_header->course_idnumber);
+-            $course->idnumber = ''; //addslashes($course_header->course_idnumber); // we don't want this at all.
+             $course->summary = addslashes($course_header->course_summary);
+             $course->format = addslashes($course_header->course_format);
+             $course->showgrades = addslashes($course_header->course_showgrades);
+@@ -1213,6 +1212,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
                  //Replace old course_id in course_header
                  $course_header->course_id = $newid;
                  $SESSION->restore->course_id = $newid;
