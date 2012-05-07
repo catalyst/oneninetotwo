@@ -1,8 +1,31 @@
+diff --git a/admin/settings/courses.php b/admin/settings/courses.php
+index 6a6c8a5..a82f062 100644
+--- a/admin/settings/courses.php
++++ b/admin/settings/courses.php
+@@ -65,15 +65,15 @@ if ($hassiteconfig
+     // "backups" settingpage
+     if (!empty($CFG->backup_version)) {
+         $bi = array();
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_modules', get_string('includemodules'), get_string('backupincludemoduleshelp'), 0);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_modules', get_string('includemodules'), get_string('backupincludemoduleshelp'), 1);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_withuserdata', get_string('includemoduleuserdata'), get_string('backupincludemoduleuserdatahelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_metacourse', get_string('metacourse'), get_string('backupmetacoursehelp'), 0);
+         $bi[] = new admin_setting_configselect('backup_sche_users', get_string('users'), get_string('backupusershelp'),
+                                                0, array(0 => get_string('all'), 1 => get_string('course')));
+         $bi[] = new admin_setting_configcheckbox('backup_sche_logs', get_string('logs'), get_string('backuplogshelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_userfiles', get_string('userfiles'), get_string('backupuserfileshelp'), 0);
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_coursefiles', get_string('coursefiles'), get_string('backupcoursefileshelp'), 0);
+-        $bi[] = new admin_setting_configcheckbox('backup_sche_sitefiles', get_string('sitefiles'), get_string('backupsitefileshelp'), 0);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_coursefiles', get_string('coursefiles'), get_string('backupcoursefileshelp'), 1);
++        $bi[] = new admin_setting_configcheckbox('backup_sche_sitefiles', get_string('sitefiles'), get_string('backupsitefileshelp'), 1);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_gradebook_history', get_string('gradebookhistories', 'grades'), get_string('backupgradebookhistoryhelp'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_messages', get_string('messages', 'message'), get_string('backupmessageshelp','message'), 0);
+         $bi[] = new admin_setting_configcheckbox('backup_sche_blogs', get_string('blogs', 'blog'), get_string('backupblogshelp','blog'), 0);
 diff --git a/backup/restorelib.php b/backup/restorelib.php
-index 84f5f2a..b8529b3 100644
+index 6cf48e1..e8278ef 100644
 --- a/backup/restorelib.php
 +++ b/backup/restorelib.php
-@@ -952,7 +952,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+@@ -971,7 +971,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
          // Calculate if we have perms to create users, by checking:
          // to 'moodle/restore:createuser' and 'moodle/restore:userinfo'
          // and also observe $CFG->disableusercreationonrestore
@@ -11,8 +34,24 @@ index 84f5f2a..b8529b3 100644
          if (has_capability('moodle/restore:createuser', $context) and
              has_capability('moodle/restore:userinfo', $context) and
              empty($CFG->disableusercreationonrestore)) { // Can create users
+@@ -1129,7 +1129,6 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+             $course->fullname = addslashes($course_header->course_fullname);
+             $course->shortname = addslashes($course_header->course_shortname);
+             $course->idnumber = addslashes($course_header->course_idnumber);
+-            $course->idnumber = ''; //addslashes($course_header->course_idnumber); // we don't want this at all.
+             $course->summary = addslashes($course_header->course_summary);
+             $course->format = addslashes($course_header->course_format);
+             $course->showgrades = addslashes($course_header->course_showgrades);
+@@ -1213,6 +1212,7 @@ define('RESTORE_GROUPS_GROUPINGS', 3);
+                 //Replace old course_id in course_header
+                 $course_header->course_id = $newid;
+                 $SESSION->restore->course_id = $newid;
++                get_context_instance(CONTEXT_COURSE, $newid);
+                 return $newid;
+             } else {
+                 $status = false;
 diff --git a/tag/lib.php b/tag/lib.php
-index 8b7e2fb..51c4d3e 100644
+index f6fe89a..3f2b1a5 100644
 --- a/tag/lib.php
 +++ b/tag/lib.php
 @@ -620,7 +620,6 @@ function tag_find_records($tag, $type, $limitfrom='', $limitnum='') {

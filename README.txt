@@ -20,7 +20,8 @@ courses with other Schools.
  - PostgreSQL   - http://www.postgresql.org/
  - Git          - http://git-scm.com/
  - dotlockfile  - http://www.linuxmanpages.com/man1/dotlockfile.1.php
-
+ - Ensure that the php.ini file used by your command-line PHP executable
+has the "variables_order" flag set to include "E"
 
 
 
