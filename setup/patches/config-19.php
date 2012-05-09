@@ -97,7 +97,7 @@ $CFG->dbpersist = false;         // Should database connections be reused?
 // is accessible via multiple URLs then choose the most natural one
 // that your students would use.  Do not include a trailing slash
 
-$CFG->wwwroot   = 'http://localhost';
+$CFG->wwwroot   = 'http://oneninetotwo.converter';
 
 
 //=========================================================================
